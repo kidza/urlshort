@@ -69,34 +69,3 @@ docker exec -ti php-container php bin/phpunit
 * [Swagger](https://swagger.io/) - Swagger is an Interface Description Language for describing RESTful APIs expressed using JSON.
 * [Redis](https://redis.io/) - Redis is an open source (BSD licensed), in-memory data structure store.
 * [RabbitMQ](https://www.rabbitmq.com/) - RabbitMQ - message broker 
-
-
-
-# urlshort
-
-
-
-
-# docker exec -ti php-container composer install
-
-# docker exec -ti php-container php bin/console doctrine:migrations:migrate
-
-# start worker
-# docker exec -ti php-container php bin/console messenger:consume -vv
-
-
-
-# tests 
-# Create test db
-# docker exec -ti php-container php bin/console doctrine:database:create --env=test
-
-# Create test schema
-# docker exec -ti php-container php bin/console doctrine:schema:create --env=test
-
-# Start tesdt worker to consume messages 
-# docker exec -ti php-container php bin/console messenger:consume -vv  --env=test
-
-# Start tests
-# docker exec -ti php-container php bin/phpunit
-
-
