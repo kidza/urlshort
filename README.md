@@ -33,11 +33,20 @@ docker exec -ti php-container php bin/console messenger:consume -vv
 ## Description
 App is built with the use of Symfony framework, API Platform bundle, Doctrine, Redis and RabbitMQ messenger. 
 
-API Platform bundle comes with a handy swagger support. Swagger docs can be found on endpoint ```^api/docs```
+API Platform bundle comes with a handy swagger support. Swagger docs can be found on endpoint ```^api/docs```, 
+it represents the full API documentation.
 
 Application url is: ```localhost:8080```  
 
-API endpoint
+API POST endpoint `api/urls` is used for creation of short URL. 
+Param `longUrl` represents the url that needs to be short.
+In response there is a param `shortCode`, which can be used for redirection like this:  
+`http://localhost:8080/{shortcode}`
+
+API GET endpoint `api/counter` represents a counter of the shortened URL redirections. 
+
+#### Redirection flow 
+URL redirection should happen in a real-time with minimal latency, that is the main reason for using in-memory cache for finding `shortcode -> longUrl` relation. And also for using message system for counting redirections (async calls).   
 
 
 ## Testing
