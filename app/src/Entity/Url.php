@@ -11,8 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=UrlRepository::class)
  *  @ApiResource(
- *     normalizationContext={"groups"={"read"}},
- *     denormalizationContext={"groups"={"write"}},
+ *     normalizationContext={"groups"={"url:read"}},
+ *     denormalizationContext={"groups"={"url:write"}},
  * )
  * @ORM\EntityListeners({"App\Doctrine\UrlListener"})
  */
@@ -27,7 +27,7 @@ class Url
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"write", "read"})
+     * @Groups({"url:write", "url:read", "counter:read"})
      * @Assert\NotBlank()
      * @Assert\Length(
      *     min=2,
@@ -43,13 +43,13 @@ class Url
 
     /**
      * @ORM\Column(type="string", length=10, unique=true)
-     * @Groups({"read"})
+     * @Groups({"url:read"})
      */
     private $shortCode;
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Groups({"read"})
+     * @Groups({"url:read"})
      */
     private $createdAt;
 

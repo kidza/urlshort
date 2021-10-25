@@ -2,11 +2,19 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CounterRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CounterRepository::class)
+ * @ApiResource(
+ *     collectionOperations={"get"},
+ *     itemOperations={"get"},
+ *     normalizationContext={"groups"={"counter:read"}},
+ *     denormalizationContext={"groups"={"counter:write"}},
+ * )
  */
 class Counter
 {
@@ -19,12 +27,14 @@ class Counter
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"counter:read"})
      */
     private $numberOfRedirects = 0;
 
     /**
      * @ORM\OneToOne(targetEntity=Url::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"counter:read"})
      */
     private $url;
 
