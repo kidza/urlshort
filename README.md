@@ -48,7 +48,11 @@ API GET endpoint `api/counter` represents a counter of the shortened URL redirec
 #### Redirection flow 
 URL redirection should happen in a real-time with minimal latency, that is the main reason for using in-memory cache 
 for finding `shortcode -> longUrl` relation. 
-And also the reason for using message system (async) for counting URL redirections.   
+And also the reason for using message system (async) for counting URL redirections.  
+
+#### System diagram
+  
+![short-url-3](https://user-images.githubusercontent.com/5485915/138784261-6383a1ba-ff4f-4daa-9508-270330fdd066.jpg)
 
 
 ## Testing
