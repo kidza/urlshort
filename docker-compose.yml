@@ -1,0 +1,56 @@
+version: '3'
+services:
+  # nginx
+  nginx-service:
+    image: nginx:stable-alpine
+    container_name: nginx-container
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app:/var/www/project
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php-service
+      - database
+
+  # php
+  php-service:
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile
+    container_name: php-container
+    environment:
+      DATABASE_URL: mysql://root:dzaki@database:3306/urlshort?serverVersion=8
+      REDIS_URL: redis://redis:6379
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    ports:
+      - "9001:9000"
+    volumes:
+      - ./app:/var/www/project
+
+  # mysql
+  database:
+    image: mysql:8.0
+    container_name: database-container
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'urlshort'
+      MYSQL_ROOT_PASSWORD: 'dzaki'
+    #      MYSQL_USER: 'admin'
+    #      MYSQL_PASSWORD: 'dzaki'
+    ports:
+      - "4306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  # redis
+  redis:
+    image: redis:5-alpine
+    ports: [6379]
+
+  # rabbit
+  rabbitmq:
+    image: rabbitmq:3.7-management
+    ports: [ 5672, 15672 ]
+

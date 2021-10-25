@@ -1,0 +1,3 @@
+index:
+    path: /{shortCode}
+    controller: App\Controller\IndexController::index
