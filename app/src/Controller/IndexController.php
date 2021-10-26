@@ -15,7 +15,6 @@ class IndexController extends AbstractController
     public function index($shortCode, CacheInterface $redirectsCache, MessageBusInterface $messageBus): Response
     {
         $url = $redirectsCache->get($shortCode, function(ItemInterface $item) use ($shortCode){
-//            dump("miss");
             $em = $this->getDoctrine()->getManager();
             return $em->getRepository(Url::class)->findOneBy(array('shortCode' => $shortCode));
         });
@@ -23,7 +22,6 @@ class IndexController extends AbstractController
         if (empty($url)) {
             throw $this->createNotFoundException('The url does not exist');
         } else {
-//            dd("now redirects to" . $url->getLongUrl());
             $message = new CountRedirection($url->getId());
             $messageBus->dispatch($message);
 
